@@ -1,11 +1,16 @@
-name: Super-Linter
-on: push
+version: '1.0'
+steps:
+  build_image:
+    type: build
+    description: Building the image...
+    image-name: myuser/myservice
+    tag: develop # ${{CF_BRANCH}}
 
-jobs:
-  super-lint:
-  name: Lint code base
-  runs on: unbuntu-latest
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-  
+  perform_tests:
+    image: node:5
+    working_directory: ${{main_clone}}
+    description: Performing unit tests...
+    commands:
+      - npm install gulp -g 
+      - npm install
+      - gulp unit_test
